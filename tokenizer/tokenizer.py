@@ -31,10 +31,12 @@ class Tokenizer:
                     tokens = linetokenizer.next()                           # getting next token if it exist
                     for token in tokens:
                         answer.append(token)                                # adding token to tokens list
+                        token.language_id = Alphabet.getCode(token)         # getting alphabet code of toekn
                         if token.type != '':                                # checking is token is a constant
-                            token.variable_id = constant_id                 # and adding to constant list
-                            constant_id += 1
-                            self.constants.append(token)
+                            if not self._isConstant(token):
+                                token.variable_id = constant_id             # and adding to constant list
+                                constant_id += 1
+                                self.constants.append(token)
                             continue
                         elif Alphabet.isDataType(token):                    # checking for start of process of creating
                             new_variable_create_flag = True                 # new variable
@@ -66,6 +68,16 @@ class Tokenizer:
     """
     def _isVariable(self, checkable):
         for i in self.variables:
+            if i.name == checkable.name:
+                return True
+        return False
+
+    """
+    inner method to check is checkable is already a constant
+    :returns True if it's a constant, otherwise - False
+    """
+    def _isConstant(self, checkable):
+        for i in self.constants:
             if i.name == checkable.name:
                 return True
         return False

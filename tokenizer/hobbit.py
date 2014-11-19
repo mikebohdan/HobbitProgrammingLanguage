@@ -9,7 +9,7 @@ For using this analyzer you may pas into stdin few files at special order:
 ATTENTION:    I guess that all files is located in runtime directory!
 
 :author Mike Bohdan
-:version 1.0.1
+:version 1.0.2
 :date November 16, 2014
 :licence GPLv2
 

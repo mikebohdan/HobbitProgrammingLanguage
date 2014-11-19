@@ -73,7 +73,7 @@ class AlphabetClass:
 
     """
     try to get a code of variable
-    :returns if it's an alphabet key it returns code, otherwise - raise an error
+    :returns if it's an alphabet key it returns code, otherwise - 0
     """
     def getCode(self, var):
         try:
@@ -84,8 +84,7 @@ class AlphabetClass:
             except KeyError:
                 try:
                     return self.key_words[var.name]     # trie to return a code of key word for var
-                except KeyError:                        # if all tries are unsuccessful raises an error
-                    raise Error(error_type='undefined variable',
-                                lnumber=var.line_number)
+                except KeyError:                        # if all tries are unsuccessful return 0
+                    return 0
 
 Alphabet = AlphabetClass()
