@@ -1,6 +1,7 @@
-from common.checkers import *
-from common.error import *
-from token import Token
+from tokenizer.common.checkers import *
+from tokenizer.common.error import *
+from tokenizer.token import Token
+from tokenizer.common.error import EmptyLineReadingException
 
 
 class LineTokenizer:

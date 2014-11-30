@@ -15,8 +15,8 @@ class Token:
     :returns representing string
     """
     def __str__(self):
-        return format('line: %5d \u007c token: %30s \u007c type: %9s \u007c alphabet_id: %5d \u007c variable_id: %5.0f' %
-                      (self.line_number, self.name, self.type, self.language_id, self.variable_id))
+        return format('line: %5d \u007c token: %20s \u007c type: %6s \u007c alphabet_id: %5d \u007c variable_id: %5.0f'
+                      % (self.line_number, self.name, self.type, self.language_id, self.variable_id))
 
     """
     method represent Token in dictionary form

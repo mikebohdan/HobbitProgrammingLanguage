@@ -1,16 +1,16 @@
 import json
-from common.alphabet import Alphabet
-from common.error import *
-from linetokenizer import LineTokenizer
+from tokenizer.common.alphabet import Alphabet
+from tokenizer.common.error import OverriddenException
+from tokenizer.linetokenizer import LineTokenizer
 
 
 class Tokenizer:
-    file_to_analyze = None
+    source_to_analyze = None
     variables = []
     constants = []
 
-    def __init__(self, file_to_analyze):
-        self.file_to_analyze = file_to_analyze
+    def __init__(self, source_to_analyze):
+        self.source_to_analyze = source_to_analyze
 
     """
     method is analyzing given file for lexical problems
@@ -22,7 +22,7 @@ class Tokenizer:
         variable_id = 0                                                     # variable used for numbering of tokens
         constant_id = 0                                                     # variable used for numbering of constants
         new_variable_create_flag = False                                    # indicate process of creating new variable
-        for line in self.file_to_analyze.readlines():
+        for line in self.source_to_analyze:
             linetokenizer = LineTokenizer(line=line,
                                           line_number=line_number)
             line_number += 1
@@ -55,7 +55,7 @@ class Tokenizer:
                             raise UnknownVariableException(lnumber=line_number) # we raise an Exception
 
                 except Exception as e:                                      # catching and printing any exception
-                    print(e)
+                    raise e
         return {
             'tokens':       answer,
             'variables':    self.variables,
@@ -85,7 +85,7 @@ class Tokenizer:
 if __name__ == '__main__':
     input_file = open("/Users/mike/input.hobbit")
     output_file = open("/Users/mike/output.json", 'w')
-    tz = Tokenizer(file_to_analyze=input_file)
+    tz = Tokenizer(source_to_analyze=input_file)
     try:
         tz = tz.analyze()
     except OverriddenException as oe:
