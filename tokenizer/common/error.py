@@ -14,10 +14,11 @@ class UnknownVariableException(Exception):
     def __init__(self, lnumber):
         self._line_number = lnumber
     def __str__(self):
-        return repr(format("In line %d you have an error: unknown variable"))
+        return repr(format("In line %d you have an error: unknown variable") %
+                           self._line_number)
 
 
-class SymbolNotFoundExceprint(Exception):
+class SymbolNotFoundException(Exception):
     def __init__(self, lnumber):
         self._line_number = lnumber
     def __str__(self):

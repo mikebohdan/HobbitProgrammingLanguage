@@ -35,10 +35,11 @@ class AlphabetClass:
         'if':       60,
         'for':      61,
         'to':       62,
+        'do':       63,
         'else':     74,
         'return':   79,
-        'output':   84,
-        'input':    85,
+        'out':   84,
+        'in':    85,
     }
 
     """

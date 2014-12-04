@@ -1,6 +1,6 @@
 import json
 from tokenizer.common.alphabet import Alphabet
-from tokenizer.common.error import OverriddenException
+from tokenizer.common.error import *
 from tokenizer.linetokenizer import LineTokenizer
 
 

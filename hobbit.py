@@ -19,12 +19,14 @@ Good luck and have fun with this simple lexical analyzer for hobbit programming 
 import json
 from os import getcwd
 from sys import argv
-from tokenizer import Tokenizer
+from syntax_analizer.syntax_analyzer import SyntaxAnalyzer
+from tokenizer.tokenizer import Tokenizer
+
 try:
     input_file = open(getcwd()+'/'+argv[1])
 
     # analyzing of input file
-    tz = Tokenizer(file_to_analyze=input_file)
+    tz = Tokenizer(input_file)
     try:
         tz = tz.analyze()
     except Exception as e:
@@ -69,7 +71,14 @@ try:
     except Exception:
         pass
 
+    try:
+        a = SyntaxAnalyzer(tz)
+        a.analyze()
+        print("OK")
+    except Exception as e:
+        print(e)
 except Exception as e:
+    print(e.with_traceback())
     print("Hobbit token analyzer version 1.0")
     print()
     print("You must input date in special format:")

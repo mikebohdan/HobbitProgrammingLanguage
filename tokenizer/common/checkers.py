@@ -113,7 +113,7 @@ checks is it single splitter
 :returns True if checkable is single splitter, otherwise - False
 """
 def isSingleSplitter(checkable):
-    single_splitters = ['*', '/', '%', '(', ')', '{', '}', '\n']
+    single_splitters = ['*', '/', '%', '(', ')', '{', '}', '\n', ',']
     if checkable in single_splitters:
         return True
     else:

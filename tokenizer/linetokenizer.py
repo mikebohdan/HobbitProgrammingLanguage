@@ -10,7 +10,7 @@ class LineTokenizer:
     __line_number = 0
 
     def __init__(self, line, line_number):
-        self.__current_line = line + '\n'
+        self.__current_line = line
         self.__line_number = line_number
 
     """
@@ -49,10 +49,10 @@ class LineTokenizer:
             self.__current_token = '\n'
         elif isLetter(current_symbol):                      # checking for start of symbolic token
             return self._state_10()
-        elif isSingleSplitter(current_symbol) or \
-                isSingleEqu(current_symbol):              # checking for single splitter token
+        elif isSingleSplitter(current_symbol):              # checking for single splitter token
             return self._getSplitter()
-        elif isFirtsPartOfDoubleSplitter(current_symbol):   # checking for start of double splitter token
+        elif isFirtsPartOfDoubleSplitter(current_symbol) or \
+                isSingleEqu(current_symbol):                # checking for start of double splitter token
             return self._state_11()
         elif isExMark(current_symbol):                      # checking for first part of '!='
             return self._state_12()
@@ -63,7 +63,8 @@ class LineTokenizer:
         elif isWhiteSplitter(current_symbol):
             return self._state_1()
         else:
-            raise SymbolNotFoundExceprint(lnumber=self.__line_number)         # rising an error if symbol no found
+            print(self.__current_token)
+            raise SymbolNotFoundException(lnumber=self.__line_number)         # rising an error if symbol no found
 
     def _state_2(self):
         current_symbol = self.__current_line[0]
@@ -215,15 +216,9 @@ class LineTokenizer:
     :returns a tuple of start splitter token, string and finish splitter token
     """
     def _getString(self):
-        return {Token(name=self.__current_token[:1],
-                      type='',
-                      line_number=self.__line_number),
-                Token(name=self.__current_token[1:-1],
+        return {Token(name=self.__current_token[1:-1],
                      type='string',
-                     line_number=self.__line_number),
-                Token(name=self.__current_token[:1],
-                      type='',
-                      line_number=self.__line_number)}
+                     line_number=self.__line_number)}
 
     """
     :returns tuple of non-typed Tokens like int, double, lol, etc.
@@ -239,3 +234,4 @@ class LineTokenizer:
     def _push(self, current_symbol):
         self.__current_line = self.__current_line[1:]
         self.__current_token += current_symbol
+
