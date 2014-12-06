@@ -49,7 +49,8 @@ class LineTokenizer:
             self.__current_token = '\n'
         elif isLetter(current_symbol):                      # checking for start of symbolic token
             return self._state_10()
-        elif isSingleSplitter(current_symbol):              # checking for single splitter token
+        elif isSingleSplitter(current_symbol) or \
+                isPlusOrMinus(current_symbol):              # checking for single splitter token
             return self._getSplitter()
         elif isFirtsPartOfDoubleSplitter(current_symbol) or \
                 isSingleEqu(current_symbol):                # checking for start of double splitter token

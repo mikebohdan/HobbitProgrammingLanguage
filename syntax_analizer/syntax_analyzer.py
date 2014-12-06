@@ -241,6 +241,7 @@ class SyntaxAnalyzer:
             self.arithmetic_expression_body()
         except Exception as e:
             raise WrongArithmeticExpressionDeclaration(self.data[self.current].line_number, e)
+        self.current -= 1
 
     """
     Method checks correctness of declaration of operations
@@ -258,6 +259,8 @@ class SyntaxAnalyzer:
                 self.arithmetic_expression_body()
             except Exception as e:
                 raise WrongArithmeticExpressionDeclaration(self.data[self.current].line_number, e)
+        else:
+            return
         self.current += 1
 
     """
@@ -277,6 +280,8 @@ class SyntaxAnalyzer:
                 self.term()
             except Exception as e:
                 raise WrongArithmeticExpressionDeclaration(self.data[self.current].line_number, e)
+        else:
+            return
 
     """
     This method needed for checking correctness declaration unary operations.
@@ -313,12 +318,12 @@ class SyntaxAnalyzer:
     Methods checks that only numbers can be part of arithmetic operations.
     """
     def value(self):
-        if self.data[self.current].name == 'int' or \
-                self.data[self.current].name == 'float':
+        if self.inConstants():
             self.current += 1
-            if self.inVaraibles():
-                self.current += 1
-                return
+        elif self.inVaraibles():
+            self.current += 1
+        else:
+            return
 
         raise WrongArithmeticExpressionDeclaration(self.data[self.current].line_number)
 
@@ -332,6 +337,7 @@ class SyntaxAnalyzer:
             self.current += 1
             try:
                 self.arithmetic_expression()
+                self.current += 1
                 if self.data[self.current].name != 'to':
                     raise WrongForExpressionDeclaration(self.data[self.current].line_number)
                 self.current += 1
