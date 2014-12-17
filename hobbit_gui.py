@@ -4,6 +4,7 @@ from tkinter import *
 import traceback
 from tokenizer.tokenizer import Tokenizer
 from syntax_analizer.syntax_analyzer import *
+from Automat import syntax_analyser
 
 
 class HobbitGUI(Tk):
@@ -39,11 +40,15 @@ class HobbitGUI(Tk):
 
         btnParse = Button(self, text="Parse",
                           command=self.on_button_parse)
-        btnParse.grid(column=2, row=17)
+        btnParse.grid(column=3, row=17)
 
         btnAnalyze = Button(self, text='Analyze',
                             command=self.analyze)
-        btnAnalyze.grid(column=1, row=17)
+        btnAnalyze.grid(column=2, row=17)
+
+        btnAnalyze2 = Button(self, text='Analyze2',
+                             command=self.analyze2)
+        btnAnalyze2.grid(column=1, row=17)
 
     def test(self):
         source_code = self.inputField.get('1.0', 'end').split('\n')
@@ -59,6 +64,17 @@ class HobbitGUI(Tk):
             self.errorsTable.insert(END, 'OK')
         except Exception as e:
             for i in e.__str__().split('\n'):
+                self.errorsTable.insert(END, i)
+
+    def analyze2(self):
+        if self.tz is None:
+            self.errorsTable.insert(END, "No data to analyze.")
+        else:
+            __analyze_input = []
+            for i in self.tz['tokens']:
+                __analyze_input.append(i.toDict())
+            __analyze_output = syntax_analyser.move(__analyze_input)
+            for i in __analyze_output:
                 self.errorsTable.insert(END, i)
 
     def on_button_parse(self):
