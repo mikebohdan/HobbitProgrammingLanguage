@@ -1,1 +1,1 @@
-__author__ = 'mike'
+from .syntax_analyser import move

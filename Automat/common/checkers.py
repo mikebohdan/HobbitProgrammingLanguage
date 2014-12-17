@@ -53,8 +53,7 @@ def isID(checkable):
     :param checkable:
     :return:
     """
-    if checkable.type.lower() == '' and \
-            not isnan(checkable.variable_id):
+    if checkable.type.lower() == '':
         return True
     else:
         return False
@@ -66,10 +65,10 @@ def isConstant(checkable):
     :param checkable:
     :return:
     """
-    if checkable.type.lower() != '' and \
-            not isnan(checkable.variable_id):
+    if checkable.type.lower() != '':
         return True
     else:
+        print(checkable)
         return False
 
 

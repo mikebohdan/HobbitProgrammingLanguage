@@ -40,19 +40,19 @@ class WrongVariableDeclaration(AbstractException):
 
 
 class WrongInputDeclaration(AbstractException):
-    message = ' is a wrong token!'
+    message = ' is a wrong token in input declaration!'
 
 
 class WrongOutputDeclaration(AbstractException):
-    message = ' is a wrong token!'
+    message = ' is a wrong token in output declaration!'
 
 
 class WrongIfDeclaration(AbstractException):
-    message = ' is a wrong token!'
+    message = ' is a wrong token in if declaration!'
 
 
 class WrongForDeclaration(AbstractException):
-    message = ' is a wrong token!'
+    message = ' is a wrong token in for declaration!'
 
 
 class WrongArithmeticExpressionDeclaration(AbstractException):
