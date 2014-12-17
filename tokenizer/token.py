@@ -10,6 +10,16 @@ class Token:
         self.type = type
         self.line_number = line_number
 
+    @staticmethod
+    def fromDict(dictionary):
+        new = Token(dictionary['name'],
+                    dictionary['type'],
+                    dictionary['line_number'])
+        new.language_id = dictionary['alphabet_id']
+        new.variable_id = dictionary['variable_id']
+
+        return new
+
     """
     method represent Token in readable form
     :returns representing string
