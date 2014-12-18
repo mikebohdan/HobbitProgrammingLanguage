@@ -1,12 +1,15 @@
-from ._element import Element
+from DownTopAnalizer.Analyzer.common._element import Element
+
+_alphabet = {}
 
 
-def init_grammar():
-    return {
+def init():
+    global _alphabet
+    _alphabet = dict({
         # Non terminals
         '<main>': Element('<main>'),
         '<data_type>': Element('<data_type>'),
-        'param_list': Element('param_list'),
+        '<param_list>': Element('<param_list>'),
         '<variable>': Element('<variable>'),
         '<constant>': Element('<constant>'),
         '<block>': Element('<block>'),
@@ -133,6 +136,15 @@ def init_grammar():
         '_': Element('_'),
         '\\t': Element('\\t'),
         ' ': Element(' '),
+        '!': Element('!'),
+        '?': Element('?'),
+        '&': Element('&'),
+        '`': Element('`'),
+        '\'': Element('\''),
+        ';': Element(';'),
+        ':': Element(':'),
+        '[': Element('['),
+        ']': Element(']'),
         '0': Element('0'),
         '1': Element('1'),
         '2': Element('2'),
@@ -143,5 +155,197 @@ def init_grammar():
         '7': Element('7'),
         '8': Element('8'),
         '9': Element('9'),
+        'ID': Element('ID'),
+        '=': Element('=')
         # ==================
-    }
+    })
+
+    # Equal relations
+    _alphabet['<data_type>'].Equals = [_alphabet['ID']]
+    _alphabet['<param_list>'].Equals = [_alphabet[')']]
+    _alphabet['<variable>'].Equals = [_alphabet[',']]
+    _alphabet['<block>'].Equals = [_alphabet['else']]
+    _alphabet['<block_body>'].Equals = [_alphabet['}']]
+    _alphabet['<source_code_string>'].Equals = [_alphabet['<block_body>']]
+    _alphabet['<sc_element>'].Equals = [_alphabet['\\n'], _alphabet['<comment>']]
+    _alphabet['<arithmetic_expression>'].Equals = [_alphabet['to']]
+    _alphabet['<arithmetic_expression_body>'].Equals = [_alphabet[')'], _alphabet['do']]
+    _alphabet['<term>'].Equals = [_alphabet['<operator_1lvl>']]
+    _alphabet['<multiplier>'].Equals = [_alphabet['<operator_2lvl>']]
+    _alphabet['<operator_1lvl>'].Equals = [_alphabet['<arithmetic_expression_body>']]
+    _alphabet['<operator_2lvl>'].Equals = [_alphabet['<term>']]
+    _alphabet['<input_param_list>'].Equals = [_alphabet[')']]
+    _alphabet['<name>'].Equals = [_alphabet['('], _alphabet['='], _alphabet[',']]
+    _alphabet['<number>'].Equals = [_alphabet['<text>']]
+    _alphabet['<bool_expression>'].Equals = [_alphabet[')']]
+    _alphabet['<comparable>'].Equals = [_alphabet['<bool_operator>']]
+    _alphabet['<bool_operator>'].Equals = [_alphabet['<comparable>']]
+    _alphabet['<int>'].Equals = [_alphabet['.'], _alphabet['e']]
+    _alphabet['<string>'].Equals = [_alphabet[','], _alphabet[')']]
+    _alphabet['<text>'].Equals = [_alphabet['"']]
+    _alphabet['<comment>'].Equals = [_alphabet['\\n']]
+    _alphabet['<letter>'].Equals = [_alphabet['<name_tail>'], _alphabet['<text>']]
+    _alphabet['<splitter>'].Equals = [_alphabet['<text>']]
+    _alphabet['<digit>'].Equals = [_alphabet['<name_tail>'], _alphabet['<int>']]
+    _alphabet['{'].Equals = [_alphabet['<block_body>']]
+    _alphabet['in'].Equals = [_alphabet['(']]
+    _alphabet['out'].Equals = [_alphabet['(']]
+    _alphabet['if'].Equals = [_alphabet['(']]
+    _alphabet['('].Equals = [_alphabet['<param_list>'], _alphabet['<input_param_list>'],
+                             _alphabet['<string>'], _alphabet['<bool_expression>'],
+                             _alphabet['<arithmetic_expression_body>']]
+    _alphabet[')'].Equals = [_alphabet['<block>']]
+    _alphabet['else'].Equals = [_alphabet['<block>']]
+    _alphabet['+'].Equals = [_alphabet['<mp_body>']]
+    _alphabet['-'].Equals = [_alphabet['<mp_body>'], _alphabet['<int>']]
+    _alphabet['for'].Equals = [_alphabet['<arithmetic_expression>']]
+    _alphabet['to'].Equals = [_alphabet['<arithmetic_expression_body>']]
+    _alphabet['do'].Equals = [_alphabet['<block>']]
+    _alphabet[','].Equals = [_alphabet['<param_list>']]
+    _alphabet['.'].Equals = [_alphabet['<int>']]
+    _alphabet['e'].Equals = [_alphabet['<int>'], _alphabet['-'], _alphabet['+']]
+    _alphabet['"'].Equals = [_alphabet['<text>']]
+    _alphabet['#'].Equals = [_alphabet['<text>']]
+    _alphabet['='].Equals = [_alphabet['<arithmetic_expression_body>']]
+
+    # First relations
+    _alphabet['<main>'].First = [_alphabet['<data_type>']]
+    _alphabet['<data_type>'].First = [_alphabet['int'], _alphabet['float'], _alphabet['string'],
+                                      _alphabet['bool'], _alphabet['void']]
+    _alphabet['<param_list>'].First = [_alphabet['<variable>']]
+    _alphabet['<variable>'].First = [_alphabet['<data_type>']]
+    _alphabet['<constant>'].First = [_alphabet['<number>'], _alphabet['<string>'],
+                                     _alphabet['true'], _alphabet['false']]
+    _alphabet['<block>'].First = [_alphabet['{']]
+    _alphabet['<block_body>'].First = [_alphabet['<source_code_string>']]
+    _alphabet['<source_code_string>'].First = [_alphabet['<sc_element>'], _alphabet['\\n']]
+    _alphabet['<sc_element>'].First = [_alphabet['<variable>'], _alphabet['<inp>'], _alphabet['<out>'],
+                                       _alphabet['<if_expression>'], _alphabet['<arithmetic_expression>'],
+                                       _alphabet['<for_cycle>']]
+    _alphabet['<inp>'].First = [_alphabet['in']]
+    _alphabet['<out>'].First = [_alphabet['out']]
+    _alphabet['<if_expression>'].First = [_alphabet['if']]
+    _alphabet['<arithmetic_expression>'].First = [_alphabet['<name>']]
+    _alphabet['<arithmetic_expression_body>'].First = [_alphabet['<term>']]
+    _alphabet['<term>'].First = [_alphabet['<multiplier>']]
+    _alphabet['<multiplier>'].First = [_alphabet['+'], _alphabet['-'], _alphabet['<mp_body>']]
+    _alphabet['<mp_body>'].First = [_alphabet['('], _alphabet['<value>']]
+    _alphabet['<value>'].First = [_alphabet['<number>'], _alphabet['<name>']]
+    _alphabet['<operator_1lvl>'].First = [_alphabet['+'], _alphabet['-']]
+    _alphabet['<operator_2lvl>'].First = [_alphabet['*'], _alphabet['/'], _alphabet['%']]
+    _alphabet['<for_cycle>'].First = [_alphabet['for']]
+    _alphabet['<input_param_list>'].First = [_alphabet['<name>'], _alphabet['<constant>']]
+    _alphabet['<name>'].First = [_alphabet['<letter>']]
+    _alphabet['<name_tail>'].First = [_alphabet['<digit>'], _alphabet['<letter>']]
+    _alphabet['<number>'].First = [_alphabet['<int>'], _alphabet['<float>']]
+    _alphabet['<bool_expression>'].First = [_alphabet['<comparable>'], _alphabet['true'], _alphabet['false']]
+    _alphabet['<comparable>'].First = [_alphabet['<name>'], _alphabet['<constant>']]
+    _alphabet['<bool_operator>'].First = [_alphabet['<'], _alphabet['>'], _alphabet['<='], _alphabet['>='],
+                                          _alphabet['!='], _alphabet['==']]
+    _alphabet['<char>'].First = [_alphabet['<letter>'], _alphabet['<splitter>']]
+    _alphabet['<int>'].First = [_alphabet['<digit>']]
+    _alphabet['<float>'].First = [_alphabet['<int>']]
+    _alphabet['<string>'].First = [_alphabet['"']]
+    _alphabet['<text>'].First = [_alphabet['<letter>'], _alphabet['<number>'], _alphabet['<splitter>']]
+    _alphabet['<comment>'].First = [_alphabet['#']]
+    _alphabet['<letter>'].First = [_alphabet['a'], _alphabet['b'], _alphabet['c'], _alphabet['d'], _alphabet['e'],
+                                   _alphabet['f'], _alphabet['g'], _alphabet['h'], _alphabet['i'], _alphabet['j'],
+                                   _alphabet['k'], _alphabet['l'], _alphabet['m'], _alphabet['n'], _alphabet['o'],
+                                   _alphabet['p'], _alphabet['q'], _alphabet['r'], _alphabet['s'], _alphabet['t'],
+                                   _alphabet['u'], _alphabet['v'], _alphabet['w'], _alphabet['x'], _alphabet['y'],
+                                   _alphabet['z'],
+                                   _alphabet['A'], _alphabet['B'], _alphabet['C'], _alphabet['D'], _alphabet['E'],
+                                   _alphabet['F'], _alphabet['G'], _alphabet['H'], _alphabet['I'], _alphabet['J'],
+                                   _alphabet['K'], _alphabet['L'], _alphabet['M'], _alphabet['N'], _alphabet['O'],
+                                   _alphabet['P'], _alphabet['Q'], _alphabet['R'], _alphabet['S'], _alphabet['T'],
+                                   _alphabet['U'], _alphabet['V'], _alphabet['W'], _alphabet['X'], _alphabet['Y'],
+                                   _alphabet['Z'],
+                                   _alphabet['_']]
+    _alphabet['<splitter>'].First = [_alphabet['.'], _alphabet[','], _alphabet['!'], _alphabet['?'], _alphabet['\\n'],
+                                     _alphabet['\\t'], _alphabet['<'], _alphabet['>'], _alphabet['<='], _alphabet['>='],
+                                     _alphabet['!='], _alphabet['=='], _alphabet['&'],  _alphabet['`'], _alphabet['#'],
+                                     _alphabet['='], _alphabet['+'],  _alphabet['-'], _alphabet['*'], _alphabet['/'],
+                                     _alphabet['%'], _alphabet['('], _alphabet[')'], _alphabet['{'], _alphabet['}'],
+                                     _alphabet['['], _alphabet['\''], _alphabet[','], _alphabet['"'], _alphabet[';'],
+                                     _alphabet[':'], _alphabet[' ']]
+    _alphabet['<digit>'].First = [_alphabet['0'], _alphabet['1'], _alphabet['2'], _alphabet['3'], _alphabet['4'],
+                                  _alphabet['5'], _alphabet['6'], _alphabet['7'], _alphabet['8'], _alphabet['9']]
+
+    # Last relations
+    _alphabet['<main>'].Last = [_alphabet['<block>']]
+    _alphabet['<data_type>'].Last = [_alphabet['int'], _alphabet['float'], _alphabet['string'],
+                                    _alphabet['bool'], _alphabet['void']]
+    _alphabet['<param_list>'].Last = [_alphabet['<param_list>']]
+    _alphabet['<variable>'].Last = [_alphabet['<name>']]
+    _alphabet['<constant>'].Last = [_alphabet['<number>'], _alphabet['<string>'],
+                                    _alphabet['true'], _alphabet['false']]
+    _alphabet['<block>'].Last = [_alphabet['}']]
+    _alphabet['<block_body>'].Last = [_alphabet['<source_code_string>'], _alphabet['<block_body>']]
+    _alphabet['<source_code_string>'].Last = [_alphabet['\\n']]
+    _alphabet['<sc_element>'].Last = [_alphabet['<variable>'], _alphabet['<inp>'], _alphabet['<out>'],
+                                      _alphabet['<if_expression>'], _alphabet['<arithmetic_expression>'],
+                                      _alphabet['<for_cycle>']]
+    _alphabet['<inp>'].Last = [_alphabet[')']]
+    _alphabet['<out>'].Last = [_alphabet[')']]
+    _alphabet['<if_expression>'].Last = [_alphabet['<block>']]
+    _alphabet['<arithmetic_expression>'].Last = [_alphabet['<arithmetic_expression_body>']]
+    _alphabet['<arithmetic_expression_body>'].Last = [_alphabet['<arithmetic_expression_body>']]
+    _alphabet['<term>'].Last = [_alphabet['<multiplier>'], _alphabet['<term>']]
+    _alphabet['<multiplier>'].Last = [_alphabet['<mp_body>']]
+    _alphabet['<mp_body>'].Last = [_alphabet[')'], _alphabet['<value>']]
+    _alphabet['<value>'].Last = [_alphabet['<number>'], _alphabet['<name>']]
+    _alphabet['<operator_1lvl>'].Last = [_alphabet['+'], _alphabet['-']]
+    _alphabet['<operator_2lvl>'].Last = [_alphabet['*'], _alphabet['/'], _alphabet['%']]
+    _alphabet['<for_cycle>'].Last = [_alphabet['<block>']]
+    _alphabet['<input_param_list>'].Last = [_alphabet['<name>'], _alphabet['<constant>'],
+                                            _alphabet['<input_param_list>']]
+    _alphabet['<name>'].Last = [_alphabet['<name_tail>']]
+    _alphabet['<name_tail>'].Last = [_alphabet['<digit>'], _alphabet['<letter>'], _alphabet['<name_tail>']]
+    _alphabet['<number>'].Last = [_alphabet['<int>'], _alphabet['<float>']]
+    _alphabet['<bool_expression>'].Last = [_alphabet['<comparable>'], _alphabet['true'], _alphabet['false']]
+    _alphabet['<comparable>'].Last = [_alphabet['<name>'], _alphabet['<constant>']]
+    _alphabet['<bool_operator>'].Last = [_alphabet['<'], _alphabet['>'], _alphabet['<='], _alphabet['>='],
+                                         _alphabet['!='], _alphabet['==']]
+    _alphabet['<char>'].Last = [_alphabet['<letter>'], _alphabet['<splitter>']]
+    _alphabet['<int>'].Last = [_alphabet['<digit>'], _alphabet['<int>']]
+    _alphabet['<float>'].Last = [_alphabet['<int>']]
+    _alphabet['<string>'].Last = [_alphabet['"']]
+    _alphabet['<text>'].Last = [_alphabet['<text>']]
+    _alphabet['<comment>'].Last = [_alphabet['<text>']]
+    _alphabet['<letter>'].Last = [_alphabet['a'], _alphabet['b'], _alphabet['c'], _alphabet['d'], _alphabet['e'],
+                                  _alphabet['f'], _alphabet['g'], _alphabet['h'], _alphabet['i'], _alphabet['j'],
+                                  _alphabet['k'], _alphabet['l'], _alphabet['m'], _alphabet['n'], _alphabet['o'],
+                                  _alphabet['p'], _alphabet['q'], _alphabet['r'], _alphabet['s'], _alphabet['t'],
+                                  _alphabet['u'], _alphabet['v'], _alphabet['w'], _alphabet['x'], _alphabet['y'],
+                                  _alphabet['z'],
+                                  _alphabet['A'], _alphabet['B'], _alphabet['C'], _alphabet['D'], _alphabet['E'],
+                                  _alphabet['F'], _alphabet['G'], _alphabet['H'], _alphabet['I'], _alphabet['J'],
+                                  _alphabet['K'], _alphabet['L'], _alphabet['M'], _alphabet['N'], _alphabet['O'],
+                                  _alphabet['P'], _alphabet['Q'], _alphabet['R'], _alphabet['S'], _alphabet['T'],
+                                  _alphabet['U'], _alphabet['V'], _alphabet['W'], _alphabet['X'], _alphabet['Y'],
+                                  _alphabet['Z'],
+                                  _alphabet['_']]
+    _alphabet['<splitter>'].Last = [_alphabet['.'], _alphabet[','], _alphabet['!'], _alphabet['?'], _alphabet['\\n'],
+                                    _alphabet['\\t'], _alphabet['<'], _alphabet['>'], _alphabet['<='], _alphabet['>='],
+                                    _alphabet['!='], _alphabet['=='], _alphabet['&'],  _alphabet['`'], _alphabet['#'],
+                                    _alphabet['='], _alphabet['+'],  _alphabet['-'], _alphabet['*'], _alphabet['/'],
+                                    _alphabet['%'], _alphabet['('], _alphabet[')'], _alphabet['{'], _alphabet['}'],
+                                    _alphabet['['], _alphabet['\''], _alphabet[','], _alphabet['"'], _alphabet[';'],
+                                    _alphabet[':'], _alphabet[' ']]
+    _alphabet['<digit>'].Last = [_alphabet['0'], _alphabet['1'], _alphabet['2'], _alphabet['3'], _alphabet['4'],
+                                 _alphabet['5'], _alphabet['6'], _alphabet['7'], _alphabet['8'], _alphabet['9']]
+
+    # FirstPlus relations
+    for i in _alphabet:
+        _alphabet[i].findFirstPlus()
+
+    # LastPlus relations
+    #_alphabet['<block_body>'].findLastPlus()
+    for i in _alphabet:
+        _alphabet[i].findLastPlus()
+
+
+if __name__ == '__main__':
+    init()
+    for i in _alphabet:
+        print("{:30}".format(i), [j.name for j in _alphabet[i].Equals])
