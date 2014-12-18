@@ -295,7 +295,7 @@ def move(data):
             if current >= length-1:
                 break
     except Exception as e:
-        output.append(e.with_traceback())
+        output.append(e)
         return output
 
     if len(stack) == 0:
