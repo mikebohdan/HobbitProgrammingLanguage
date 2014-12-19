@@ -1,1 +1,1 @@
-__author__ = 'mike'
+from ._table_builder import create_table

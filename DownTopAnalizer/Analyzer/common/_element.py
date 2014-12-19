@@ -53,3 +53,10 @@ class Element:
                 return True
 
         return False
+
+    @staticmethod
+    def is_non_terminal(checkable):
+        if checkable.name[0] != '<' or \
+                checkable.name[-1] != '>':
+            return False
+        return True
