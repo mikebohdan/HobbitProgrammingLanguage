@@ -8,12 +8,10 @@ def init():
         ('<main>', Element('<main>')),
         ('<data_type>', Element('<data_type>')),
         ('<param_list>', Element('<param_list>')),
-        ('<param_list1>', Element('<param_list1>')),
         ('<variable>', Element('<variable>')),
         ('<constant>', Element('<constant>')),
         ('<block>', Element('<block>')),
         ('<block_body>', Element('<block_body>')),
-        ('<block_body1>', Element('<block_body1>')),
         ('<source_code_string>', Element('<source_code_string>')),
         ('<sc_element>', Element('<sc_element>')),
         ('<inp>', Element('<inp>')),
@@ -21,7 +19,6 @@ def init():
         ('<if_expression>', Element('<if_expression>')),
         ('<arithmetic_expression>', Element('<arithmetic_expression>')),
         ('<arithmetic_expression_body>', Element('<arithmetic_expression_body>')),
-        ('<arithmetic_expression_body1>', Element('<arithmetic_expression_body1>')),
         ('<term>', Element('<term>')),
         ('<multiplier>', Element('<multiplier>')),
         ('<mp_body>', Element('<mp_body>')),
@@ -30,9 +27,7 @@ def init():
         ('<operator_2lvl>', Element('<operator_2lvl>')),
         ('<for_cycle>', Element('<for_cycle>')),
         ('<input_param_list>', Element('<input_param_list>')),
-        ('<input_param_list1>', Element('<input_param_list1>')),
         ('<name>', Element('<name>')),
-        ('<name1>', Element('<name1>')),
         ('<name_tail>', Element('<name_tail>')),
         ('<number>', Element('<number>')),
         ('<bool_expression>', Element('<bool_expression>')),
@@ -40,23 +35,13 @@ def init():
         ('<bool_operator>', Element('<bool_operator>')),
         ('<char>', Element('<char>')),
         ('<int>', Element('<int>')),
-        ('<int1>', Element('<int1>')),
         ('<float>', Element('<float>')),
         ('<string>', Element('<string>')),
-        ('<string1>', Element('<string1>')),
         ('<text>', Element('<text>')),
-        ('<text1>', Element('<text1>')),
         ('<comment>', Element('<comment>')),
         ('<letter>', Element('<letter>')),
         ('<splitter>', Element('<splitter>')),
         ('<digit>', Element('<digit>')),
-        ('<digit1>', Element('<digit1>')),
-        ('<+>', Element('<+>')),
-        ('<->', Element('<->')),
-        ('<+1>', Element('<+1>')),
-        ('<-1>', Element('<-1>')),
-        ('<.>', Element('<.>')),
-        ('<e>', Element('<e>')),
         # =================
 
         # Terminals
@@ -176,32 +161,31 @@ def init():
 
     # Equal relations
     alphabet['<data_type>'].Equals = [alphabet['ID']]
-    alphabet['<param_list1>'].Equals = [alphabet[')']]
+    alphabet['<param_list>'].Equals = [alphabet[')']]
     alphabet['<variable>'].Equals = [alphabet[',']]
     alphabet['<block>'].Equals = [alphabet['else']]
-    alphabet['<block_body1>'].Equals = [alphabet['}']]
+    alphabet['<block_body>'].Equals = [alphabet['}']]
     alphabet['<source_code_string>'].Equals = [alphabet['<block_body>']]
     alphabet['<sc_element>'].Equals = [alphabet['\\n'], alphabet['<comment>']]
     alphabet['<arithmetic_expression>'].Equals = [alphabet['to']]
-    alphabet['<arithmetic_expression_body1>'].Equals = [alphabet[')'], alphabet['do']]
+    alphabet['<arithmetic_expression_body>'].Equals = [alphabet[')'], alphabet['do']]
     alphabet['<term>'].Equals = [alphabet['<operator_1lvl>']]
     alphabet['<multiplier>'].Equals = [alphabet['<operator_2lvl>']]
     alphabet['<operator_1lvl>'].Equals = [alphabet['<arithmetic_expression_body>']]
     alphabet['<operator_2lvl>'].Equals = [alphabet['<term>']]
-    alphabet['<input_param_list1>'].Equals = [alphabet[')']]
-    alphabet['<name1>'].Equals = [alphabet['('], alphabet['='], alphabet[',']]
+    alphabet['<input_param_list>'].Equals = [alphabet[')']]
+    alphabet['<name>'].Equals = [alphabet['('], alphabet['='], alphabet[',']]
     alphabet['<number>'].Equals = [alphabet['<text>']]
     alphabet['<bool_expression>'].Equals = [alphabet[')']]
     alphabet['<comparable>'].Equals = [alphabet['<bool_operator>']]
     alphabet['<bool_operator>'].Equals = [alphabet['<comparable>']]
-    alphabet['<int1>'].Equals = [alphabet['.'], alphabet['e']]
-    alphabet['<string1>'].Equals = [alphabet[','], alphabet[')']]
-    alphabet['<text1>'].Equals = [alphabet['"']]
+    alphabet['<int>'].Equals = [alphabet['.'], alphabet['e']]
+    alphabet['<string>'].Equals = [alphabet[','], alphabet[')']]
+    alphabet['<text>'].Equals = [alphabet['"']]
     alphabet['<comment>'].Equals = [alphabet['\\n']]
     alphabet['<letter>'].Equals = [alphabet['<name_tail>'], alphabet['<text>']]
     alphabet['<splitter>'].Equals = [alphabet['<text>']]
-    alphabet['<digit>'].Equals = [alphabet['<name_tail>']]
-    alphabet['<digit1>'].Equals = [alphabet['<int>']]
+    alphabet['<digit>'].Equals = [alphabet['<name_tail>'], alphabet['<int>']]
     alphabet['{'].Equals = [alphabet['<block_body>']]
     alphabet['in'].Equals = [alphabet['(']]
     alphabet['out'].Equals = [alphabet['(']]
@@ -211,14 +195,14 @@ def init():
                             alphabet['<arithmetic_expression_body>']]
     alphabet[')'].Equals = [alphabet['<block>']]
     alphabet['else'].Equals = [alphabet['<block>']]
-    alphabet['<+1>'].Equals = [alphabet['<mp_body>']]
-    alphabet['<-1>'].Equals = [alphabet['<mp_body>'], alphabet['<int>']]
+    alphabet['+'].Equals = [alphabet['<mp_body>']]
+    alphabet['-'].Equals = [alphabet['<mp_body>'], alphabet['<int>']]
     alphabet['for'].Equals = [alphabet['<arithmetic_expression>']]
     alphabet['to'].Equals = [alphabet['<arithmetic_expression_body>']]
     alphabet['do'].Equals = [alphabet['<block>']]
     alphabet[','].Equals = [alphabet['<param_list>']]
-    alphabet['<.>'].Equals = [alphabet['<int>']]
-    alphabet['<e>'].Equals = [alphabet['<int>'], alphabet['<->'], alphabet['<+>']]
+    alphabet['.'].Equals = [alphabet['<int>']]
+    alphabet['e'].Equals = [alphabet['<int>'], alphabet['-'], alphabet['+']]
     alphabet['"'].Equals = [alphabet['<text>']]
     alphabet['#'].Equals = [alphabet['<text>']]
     alphabet['='].Equals = [alphabet['<arithmetic_expression_body>']]
@@ -243,10 +227,10 @@ def init():
     alphabet['<arithmetic_expression>'].First = [alphabet['<name>']]
     alphabet['<arithmetic_expression_body>'].First = [alphabet['<term>']]
     alphabet['<term>'].First = [alphabet['<multiplier>']]
-    alphabet['<multiplier>'].First = [alphabet['<+>'], alphabet['<->'], alphabet['<mp_body>']]
+    alphabet['<multiplier>'].First = [alphabet['+'], alphabet['-'], alphabet['<mp_body>']]
     alphabet['<mp_body>'].First = [alphabet['('], alphabet['<value>']]
     alphabet['<value>'].First = [alphabet['<number>'], alphabet['<name>']]
-    alphabet['<operator_1lvl>'].First = [alphabet['<+>'], alphabet['<->']]
+    alphabet['<operator_1lvl>'].First = [alphabet['+'], alphabet['-']]
     alphabet['<operator_2lvl>'].First = [alphabet['*'], alphabet['/'], alphabet['%']]
     alphabet['<for_cycle>'].First = [alphabet['for']]
     alphabet['<input_param_list>'].First = [alphabet['<name>'], alphabet['<constant>']]
@@ -279,27 +263,12 @@ def init():
     alphabet['<splitter>'].First = [alphabet['.'], alphabet[','], alphabet['!'], alphabet['?'], alphabet['\\n'],
                                     alphabet['\\t'], alphabet['<'], alphabet['>'], alphabet['<='], alphabet['>='],
                                     alphabet['!='], alphabet['=='], alphabet['&'],  alphabet['`'], alphabet['#'],
-                                    alphabet['='], alphabet['<+>'],  alphabet['<->'], alphabet['*'], alphabet['/'],
+                                    alphabet['='], alphabet['+'],  alphabet['-'], alphabet['*'], alphabet['/'],
                                     alphabet['%'], alphabet['('], alphabet[')'], alphabet['{'], alphabet['}'],
                                     alphabet['['], alphabet['\''], alphabet[','], alphabet['"'], alphabet[';'],
                                     alphabet[':'], alphabet[' ']]
-
     alphabet['<digit>'].First = [alphabet['0'], alphabet['1'], alphabet['2'], alphabet['3'], alphabet['4'],
                                   alphabet['5'], alphabet['6'], alphabet['7'], alphabet['8'], alphabet['9']]
-    alphabet['<+>'].First = [alphabet['+']]
-    alphabet['<->'].First = [alphabet['-']]
-    alphabet['<+1>'].First = [alphabet['<+>']]
-    alphabet['<-1>'].First = [alphabet['<->']]
-    alphabet['<.>'].First = [alphabet['.']]
-    alphabet['<e>'].First = [alphabet['e']]
-    alphabet['<param_list1>'].First = [alphabet['<param_list>']]
-    alphabet['<block_body1>'].First = [alphabet['<block_body>']]
-    alphabet['<arithmetic_expression_body1>'].First = [alphabet['<arithmetic_expression_body>']]
-    alphabet['<input_param_list1>'].First = [alphabet['<input_param_list>']]
-    alphabet['<name1>'].First = [alphabet['<name>']]
-    alphabet['<int1>'].First = [alphabet['<int>']]
-    alphabet['<string1>'].First = [alphabet['<string>']]
-    alphabet['<text1>'].First = [alphabet['<text>']]
 
     # Last relations
     alphabet['<main>'].Last = [alphabet['<block>']]
@@ -324,7 +293,7 @@ def init():
     alphabet['<multiplier>'].Last = [alphabet['<mp_body>']]
     alphabet['<mp_body>'].Last = [alphabet[')'], alphabet['<value>']]
     alphabet['<value>'].Last = [alphabet['<number>'], alphabet['<name>']]
-    alphabet['<operator_1lvl>'].Last = [alphabet['<+>'], alphabet['<->']]
+    alphabet['<operator_1lvl>'].Last = [alphabet['+'], alphabet['-']]
     alphabet['<operator_2lvl>'].Last = [alphabet['*'], alphabet['/'], alphabet['%']]
     alphabet['<for_cycle>'].Last = [alphabet['<block>']]
     alphabet['<input_param_list>'].Last = [alphabet['<name>'], alphabet['<constant>'],
@@ -358,27 +327,12 @@ def init():
     alphabet['<splitter>'].Last = [alphabet['.'], alphabet[','], alphabet['!'], alphabet['?'], alphabet['\\n'],
                                    alphabet['\\t'], alphabet['<'], alphabet['>'], alphabet['<='], alphabet['>='],
                                    alphabet['!='], alphabet['=='], alphabet['&'],  alphabet['`'], alphabet['#'],
-                                   alphabet['='], alphabet['<+>'],  alphabet['<->'], alphabet['*'], alphabet['/'],
+                                   alphabet['='], alphabet['+'],  alphabet['-'], alphabet['*'], alphabet['/'],
                                    alphabet['%'], alphabet['('], alphabet[')'], alphabet['{'], alphabet['}'],
                                    alphabet['['], alphabet['\''], alphabet[','], alphabet['"'], alphabet[';'],
                                    alphabet[':'], alphabet[' ']]
-    alphabet['<digit1>'].Last = [alphabet['<digit>']]
     alphabet['<digit>'].Last = [alphabet['0'], alphabet['1'], alphabet['2'], alphabet['3'], alphabet['4'],
                                  alphabet['5'], alphabet['6'], alphabet['7'], alphabet['8'], alphabet['9']]
-    alphabet['<+>'].Last = [alphabet['+']]
-    alphabet['<->'].Last = [alphabet['-']]
-    alphabet['<+1>'].Last = [alphabet['<+>']]
-    alphabet['<-1>'].Last = [alphabet['<->']]
-    alphabet['<.>'].Last = [alphabet['.']]
-    alphabet['<e>'].Last = [alphabet['e']]
-    alphabet['<param_list1>'].Last = [alphabet['<param_list>']]
-    alphabet['<block_body1>'].Last = [alphabet['<block_body>']]
-    alphabet['<arithmetic_expression_body1>'].Last = [alphabet['<arithmetic_expression_body>']]
-    alphabet['<input_param_list1>'].Last = [alphabet['<input_param_list>']]
-    alphabet['<name1>'].Last = [alphabet['<name>']]
-    alphabet['<int1>'].Last = [alphabet['<int>']]
-    alphabet['<string1>'].Last = [alphabet['<string>']]
-    alphabet['<text1>'].Last = [alphabet['<text>']]
 
     # FirstPlus relations
     for i in alphabet:
