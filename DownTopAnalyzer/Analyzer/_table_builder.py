@@ -21,6 +21,8 @@ def create_table():
     # Step 1
     for i in alphabet:
         for j in alphabet[i].Equals:
+            if table[i][j.name] == '=':
+                continue
             table[i][j.name] += '='
 
     # Step 2
