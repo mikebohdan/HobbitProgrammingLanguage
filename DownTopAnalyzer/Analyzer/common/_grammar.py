@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from DownTopAnalizer.Analyzer.common._element import Element
+from Analyzer.common._element import Element
 
 
 def init():

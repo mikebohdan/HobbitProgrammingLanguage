@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from DownTopAnalizer.Analyzer.common import init, Element
+from Analyzer.common import init, Element
 
 
 def create_table():

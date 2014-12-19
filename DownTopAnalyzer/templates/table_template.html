@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Лабораторная работа №4</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='table_style.css') }}">
+</head>
+
+<body>
+
+    <table class="table">
+    <th></th>
+    {% for i in alphabet %}
+        <th>{{ i }}</th>
+    {% endfor %}
+    {% for i in alphabet %}
+        <tr>
+            <th>{{ i }}</th>
+        {% for j in alphabet %}
+            {% if table[i][j].__len__() > 1 %}
+                <td class="error" title="[{{ i }}, {{ j }}]"> {{ table[i][j] }} </td>
+            {% else %}
+                {% if i[0] == '<' and i[-1] == '>'%}
+                    {% if j[0] == '<' and j[-1] == '>'%}
+                        <td class="non_terminal" title="[{{ i }}, {{ j }}]"> {{ table[i][j] }} </td>
+                    {% else %}
+                        <td title="[{{ i }}, {{ j }}]"> {{ table[i][j] }} </td>
+                    {% endif %}
+                {% else %}
+                    <td title="[{{ i }}, {{ j }}]"> {{ table[i][j] }} </td>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+</body>
+
+</html>

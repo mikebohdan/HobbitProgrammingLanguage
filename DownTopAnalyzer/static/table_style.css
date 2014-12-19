@@ -1,0 +1,26 @@
+.error {
+    background-color: red;
+}
+
+.non_terminal {
+    background-color: aquamarine;
+}
+
+th {
+    background-color: darkgray;
+}
+
+.vertical_indexes {
+    position: fixed;
+    width: 220px;
+}
+
+.hide_this {
+    visibility: hidden;
+}
+
+td {
+    border-collapse: separate;
+    border: 1px solid black;
+    position: static;
+}
